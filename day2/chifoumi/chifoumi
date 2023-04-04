@@ -1,0 +1,85 @@
+const readline = require('readline');
+require('dotenv').config();
+
+rl = readline.createInterface(process.stdin, process.stdout);
+
+rl.setPrompt("chifoumi>");
+rl.prompt();
+
+let pierre = process.env.env_pierre;
+let feuille = process.env.env_feuille;
+let ciseaux = process.env.env_ciseaux;
+
+let playerScore = 0
+let cpuScore = 0
+
+let playerChoice = "";
+let cpuChoice = "";
+rl.on('line', line => {
+  if(line == pierre || line == feuille || line == ciseaux){
+    playerChoice = line;
+
+    let rng = Math.random();
+    if(rng < 0.33333){
+      cpuChoice = pierre;
+    }
+    if(rng < 0.66666){
+      cpuChoice = feuille;
+    }
+    else{
+      cpuChoice = ciseaux;
+    }
+
+    switch(true){
+      case (playerChoice == pierre && cpuChoice === pierre):
+        console.log("pierre contre pierre, match nul");
+        break;
+      case (playerChoice == pierre && cpuChoice === feuille):
+        console.log("pierre contre feuille, vous perdez");
+        cpuScore++;
+        break;
+      case (playerChoice == pierre && cpuChoice === ciseaux):
+        console.log("pierre contre ciseaux, vous gagnez");
+        playerScore++;
+        break;
+      case (playerChoice == feuille && cpuChoice === pierre):
+        console.log("feuille contre pierre, vous gagnez");
+        playerScore++;
+        break;
+      case (playerChoice == feuille && cpuChoice === feuille):
+        console.log("feuille contre feuille, match nul");
+        break;
+      case (playerChoice == feuille && cpuChoice === ciseaux):
+        console.log("feuille contre ciseaux, vous perdez");
+        cpuScore++;
+        break;
+      case (playerChoice == ciseaux && cpuChoice === pierre):
+        console.log("ciseaux contre pierre, vous perdez");
+        cpuScore++;
+        break;
+      case (playerChoice == ciseaux && cpuChoice === feuille):
+        console.log("ciseaux contre feuille, vous gagnez");
+        playerScore++;
+        break;
+      case (playerChoice == ciseaux && cpuChoice === ciseaux):
+        console.log("ciseaux contre ciseaux, match nul")
+        break;
+    }
+    console.log("score: " + playerScore + " à " + cpuScore);
+    if(playerScore == 3){
+      console.log("vous avez gagner la partie !");
+      rl.close();
+    }
+    if(cpuScore == 3){
+      console.log("vous avez perdu la partie !");
+      rl.close();
+    }
+    rl.prompt();
+  }
+  else{
+    console.log("veuillez rentrer un object valide");
+    rl.prompt();
+  }
+}).on('close', () => {
+  process.exit(0);
+})
