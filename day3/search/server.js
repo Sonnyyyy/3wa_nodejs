@@ -20,9 +20,17 @@ const server = http.createServer((req, res) => {
     fs.readFile(directory + '/all.json', 'utf8', (err, data) => {
       if(err) {
         console.error(err);
-        return;
+        res.end(`<!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>shuffle</title>   
+            </head>
+            <body>404 not found</body>
+          </html>`
+        );
       }
-      res.end(`<!DOCTYPE html>
+      else res.end(`<!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
@@ -35,14 +43,21 @@ const server = http.createServer((req, res) => {
       );
     });
   }
-
-  if(url.split('/')[0] === 'search') {
+  else if(url.split('/')[0] === 'search') {
     fs.readFile(directory + "/" + url.split('/')[1], 'utf8', (err, data) => {
       if(err) {
         console.error(err);
-        return;
+        res.end(`<!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>shuffle</title>   
+            </head>
+            <body>404 not found</body>
+          </html>`
+        );
       }
-      res.end(`<!DOCTYPE html>
+      else res.end(`<!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
@@ -55,6 +70,15 @@ const server = http.createServer((req, res) => {
       );
     });
   }
+  else res.end(`<!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>shuffle</title>   
+      </head>
+      <body>404 not found</body>
+    </html>`
+  );
 });
 
 server.listen(port, hostname, () => {
