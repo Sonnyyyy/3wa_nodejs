@@ -9,6 +9,7 @@ const users = [
   'Bernard',
   'Elie'
 ];
+let shuffledUsers = [...users]
 
 const server = http.createServer((req, res) => {
 
@@ -36,7 +37,7 @@ const server = http.createServer((req, res) => {
   }
 
   if (url === 'shuffle') {
-    shuffle(users);
+    shuffle(shuffledUsers);
     res.end(`<!DOCTYPE html>
       <html>
         <head>
@@ -44,7 +45,7 @@ const server = http.createServer((req, res) => {
           <title>shuffle</title>   
         </head>
         <body>
-          <p>` + users + `</p>
+          <p>` + shuffledUsers + `</p>
         </body>
       </html>`
     );
