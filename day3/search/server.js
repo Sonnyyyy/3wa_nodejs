@@ -7,13 +7,35 @@ const directory = "Data";
 
 const server = http.createServer((req, res) => {
 
-  const url = req.url.replace('/','');
+const url = req.url.replace('/','');
 
   if(url === 'favicon.ico') {
     res.writeHead(200, {'Content-Type': 'image/x-icon'});
 
     res.end();
     return;
+  }
+
+  if(url === '') {
+    res.end(`<!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>root</title>
+          <script>
+            function searchByName(){
+              console.log(document.getElementById("search").value)
+              window.location.replace("http://localhost:8000/search/" + document.getElementById("search").value + ".json");
+            }
+          </script> 
+        </head>
+        <body>
+          <a href="http://localhost:8000/all">all students</a></br>
+          <input id="search" placeholder="search"></input>
+          <button onclick="searchByName()">Search!</button>
+        </body>
+      </html>`
+    );
   }
 
   if(url === 'all') {
@@ -24,7 +46,7 @@ const server = http.createServer((req, res) => {
           <html>
             <head>
               <meta charset="utf-8">
-              <title>shuffle</title>   
+              <title>all students</title>   
             </head>
             <body>404 not found</body>
           </html>`
@@ -34,7 +56,7 @@ const server = http.createServer((req, res) => {
         <html>
           <head>
             <meta charset="utf-8">
-            <title>root</title>   
+            <title>all students</title>   
           </head>
           <body>
             <p>` + data + `</p>
@@ -51,7 +73,7 @@ const server = http.createServer((req, res) => {
           <html>
             <head>
               <meta charset="utf-8">
-              <title>shuffle</title>   
+              <title>student</title>   
             </head>
             <body>404 not found</body>
           </html>`
@@ -61,7 +83,7 @@ const server = http.createServer((req, res) => {
         <html>
           <head>
             <meta charset="utf-8">
-            <title>shuffle</title>   
+            <title>student</title>   
           </head>
           <body>
             <p>` + data + `</p>
@@ -70,15 +92,6 @@ const server = http.createServer((req, res) => {
       );
     });
   }
-  else res.end(`<!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <title>shuffle</title>   
-      </head>
-      <body>404 not found</body>
-    </html>`
-  );
 });
 
 server.listen(port, hostname, () => {
