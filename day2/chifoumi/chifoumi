@@ -1,3 +1,5 @@
+// En duo avec Pauline
+
 const readline = require('readline');
 require('dotenv').config();
 
