@@ -2,12 +2,24 @@ const http = require("http");
 const hostname = "localhost";
 const port = "8000";
 const fs = require('fs');
+const path = require('path');
 
 const directory = "Data";
 
+const directoryPath = path.join(__dirname, directory);
+let searchOptions = "";
+fs.readdir(directoryPath, function (err, files) {
+  if(err) {
+    console.error(err);
+  } 
+  files.forEach(option => {
+    searchOptions += `<option value="` + option + `">` + option.replace(".json", "") + `</option>`
+  })
+});
+
 const server = http.createServer((req, res) => {
 
-const url = req.url.replace('/','');
+  const url = req.url.replace('/','');
 
   if(url === 'favicon.ico') {
     res.writeHead(200, {'Content-Type': 'image/x-icon'});
@@ -25,13 +37,13 @@ const url = req.url.replace('/','');
           <script>
             function searchByName(){
               console.log(document.getElementById("search").value)
-              window.location.replace("http://localhost:8000/search/" + document.getElementById("search").value + ".json");
+              window.location.replace("http://localhost:8000/search/" + document.getElementById("search").value);
             }
           </script> 
         </head>
         <body>
           <a href="http://localhost:8000/all">all students</a></br>
-          <input id="search" placeholder="search"></input>
+          <select id="search">` + searchOptions + `</select>
           <button onclick="searchByName()">Search!</button>
         </body>
       </html>`
