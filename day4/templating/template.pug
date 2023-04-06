@@ -1,4 +1,17 @@
-if user.isAdmin
-    h1 Access granted
-else
-    h1 You must be logged as an administrator!
+//- if user.isAdmin
+//-     h1 Access granted
+//- else
+//-     h1 You must be logged as an administrator!
+
+.user-card
+  h4
+    | #{loggedUser.name.first} #{loggedUser.name.last}
+    small (#{loggedUser.age})
+
+    p Né le #{loggedUser.birthdate}
+    p Vit à #{loggedUser.location.city}
+
+    if loggedUser.isAdmin
+      span Est administrateur
+    else
+      span N'est pas administrateur
