@@ -33,7 +33,7 @@ class Client {
           }
       */
       this.socket.on('message:new', ({nickname, message}) => this.receiveMessage(nickname, message));
-      this.socket.on('user:new', ({user}) => this.newUser(user));
+      this.socket.on('user:new', ({nickname}) => this.newUser(nickname));
   }
 
   /**
@@ -57,6 +57,9 @@ class Client {
           nickname: this.nickname,
           message: message
       });
+      this.socket.emit('user:new', {
+        nickname: this.nickname
+    });
   }
 
   /**
@@ -70,9 +73,9 @@ class Client {
       this.$messages.prepend(html);
   }
 
-  newUser(user) {
+  newUser(nickname) {
     const html = `<li class="list-group-item">
-                    ${user.nickname}
+                    ${nickname}
                 </li>`;
     this.$users.prepend(html);
 }

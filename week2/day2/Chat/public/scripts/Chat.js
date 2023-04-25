@@ -11,8 +11,9 @@ class Chat {
 
     onConnection(socket) {
         console.log( `Client`, socket.id, 'is connected via WebSockets')
-        
-
+        let user = new User(socket, 'username');
+        this.users.push(user);
+        socket.on('user:new', (nickname) => {console.log(nickname); this._onNewUser(nickname)})
         socket.on('message:new', (message) => this._onNewMessage(socket, 'username', message))
     }
 
@@ -21,6 +22,12 @@ class Chat {
         message = ent.encode(message.message);
         
         this.io.sockets.emit('message:new', {message, nickname})
+    }
+
+    _onNewUser(nickname){
+        nickname = ent.encode(nickname.nickname);
+
+        this.io.sockets.emit('user:new', {nickname});
     }
 }
 
